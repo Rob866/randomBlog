@@ -1,0 +1,22 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block content %}
+      <div class="row justify-content-center" style="width : 100%">
+        <div class="card" style="width: 80%">
+            <div class="row justify-content-center" style="width : 100%;height : 500px">
+               <img src="{% static 'blog/perfil.png' %}" style="width:80%" class="card-img-top">
+            </div>
+           
+            <div class="card-body">
+            <h5 class="card-title">{{ name }}</h5>
+            <p class="card-text">Este es solo un blog muy básico de prueba construido con el framework django en python</p>
+            <p class="card-text"><small class="text-muted">Poco a poco de mejorara.... =) </small></p>
+            </div>
+        </div>
+
+      
+      </div>
+
+
+{% endblock content     %}
+

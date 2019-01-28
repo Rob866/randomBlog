@@ -1,0 +1,28 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Compartir post{% endblock %}
+
+{% block content %}
+    {% if sent %}
+        <h1>El E-mail se envio correctamente</h1>
+        <p>
+            "{{ post.title }}" Fue enviado a  {{ form.cleaned_data.to }}.
+        </p>
+    {% else %}
+        <h3>Comparte "{{ post.title }}" por  e-mail</h3>
+        <form  class="form-control" action="{% url "blog:post_share" post.id %}" method="POST">
+           {% csrf_token %}
+           <div class="form-group">
+            <label>Nombre:</label>   
+            {{ form.name }}
+            <label>Email:</label>   
+            {{ form.email }}
+            <label>Para:</label>   
+            {{ form.to }}
+            <label>Comentario:</label>   
+            {{ form.comments }}
+           </div>
+            <input type="submit" class="btn btn-primary" value="Enviar Email">
+        </form>
+    {% endif %}
+{% endblock %}

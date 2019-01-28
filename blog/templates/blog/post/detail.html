@@ -1,0 +1,87 @@
+{% extends 'blog/base.html' %}
+{% block title %}Detalles{% endblock %}
+
+{% block content %}
+      <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                    Creado por: <a class="mr-2" href="#">{{ post.author}}</a>
+                    <small class="text-muted">{{ post.publish }}</small>
+                </div>
+                <h3>{{ post.title }}</h3>
+                
+                {% if post.imagen %} 
+                         <img src="{{ post.imagen.url }}" class="img-fluid" alt="Responsive image"
+                            style="margin-bottom : 10px">
+                {% endif %}
+                
+           
+                
+                <p class="article-content">{{post.body}}</p>
+                 <a class="btn btn-outline-info mb-4" href="{% url "blog:post_share" post.id %}">Compartir</a>
+            </div>
+        </article>
+       
+            <a class="btn btn-info mb-4" href="{% url "blog:post_list" %}">ir a blog</a>
+        
+           
+        {% with  comments.count as total_commnents  %}
+        <h3>
+            {{ total_commnents }} comentario{{ total_commnents|pluralize}}
+        </h3>
+        {% endwith %}
+
+        {% for comment in comments %}
+            <article class="media content-section">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        Comentario {{ forloop.counter }} por {{ comment.name }}
+                        <small class="text-muted">{{ comment.created }}</small>
+                    </div>  
+                    <p class="article-content">{{ comment.body|linebreaks }}</p>
+                </div>
+            </article>
+
+            {% empty %}
+            <p>No hay comentarios aun....</p>
+        {% endfor %}
+
+        {% if new_comment %}
+            <h2>Tu comentario a sido añadido.</h2>
+        {% else %}
+            <h2>Añade un nuevo comentario</h2>
+
+            <form  class="form-control" action="." method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Nombre:</label>   
+                    {{comment_form.name }}
+                    <label>Email:</label>   
+                    {{ comment_form.email }}
+                    <label>Comentario:</label>   
+                    {{ comment_form.body }}
+                </div>
+                <input type="submit" class="btn btn-primary" value="Add comentario">
+            </form>
+        {% endif %}
+        <div class="container" style="margin-top:20px">
+            <div class="row">
+                <div class="contenedor">
+                            <h3>Posts Similares:</h3>
+                            {% for post in similar_posts %}
+                            <p>
+                                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                            </p>
+                            {% empty %}
+                            Aun no hay post similares
+                            {% endfor %}
+
+                </div> 
+
+            </div>
+                  
+        </div> 
+        
+
+
+{% endblock %}
